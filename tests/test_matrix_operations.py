@@ -63,7 +63,7 @@ class TestMatrixOperations:
         matrix = Matrix([[1, 2], [3, 4], [5, 6]])
         transposed = matrix.transpose()
         assert transposed._matrix == [[1, 3, 5], [2, 4, 6]]
-    
+
     def test_singleton_matrix(self) -> None:
         # 1x1 matrix (singleton)
         matrix1 = Matrix([[3]])
@@ -89,7 +89,7 @@ class TestVectorOperations:
         # Invalid vector
         with pytest.raises(TypeError):
             Vector([[1, 2], [3, 4]])
-        
+
         # Empty vector
         with pytest.raises(TypeError):
             Vector([])
@@ -125,7 +125,7 @@ class TestVectorOperations:
         vector2 = Vector([[0, 1]])
         angle = Vector.angle(vector1, vector2)
         assert isclose(angle, 1.5708, abs_tol=1e-4)  # Pi/2 radians
-    
+
     def test_singleton_vector(self) -> None:
         # 1x1 vector (a single value)
         vector = Vector([[5]])

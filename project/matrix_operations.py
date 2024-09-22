@@ -41,9 +41,9 @@ class Matrix:
 
         if not Matrix.is_matrix(list_of_lists):
             raise TypeError("Input must be a valid matrix.")
-        
+
         self._matrix = list_of_lists
-    
+
     def transpose(self) -> "Matrix":
         """
         Transposes the matrix (flips rows and columns).
@@ -58,7 +58,7 @@ class Matrix:
 
         if not self._has_same_dimension(other):
             raise ValueError("Matrix 'other' has wrong dimension.")
-        
+
         for i in range(len(self._matrix)):
             for j in range(len(self._matrix[0])):
                 self._matrix[i][j] += other._matrix[i][j]
@@ -70,7 +70,7 @@ class Matrix:
         Adds two matrices and returns a new matrix.
         """
 
-        res = Matrix( [row[:] for row in self._matrix] )
+        res = Matrix([row[:] for row in self._matrix])
         res += other
         return res
 
@@ -81,15 +81,18 @@ class Matrix:
 
         if not self._is_multiplicable(other):
             raise ValueError(f"Matrices can't be multiplied.")
-        
-        new_matrix = [[0.] * len(other._matrix[0])
-                      for _ in range(len(self._matrix))]
-        
+
+        new_matrix = [
+            [0.0] * len(other._matrix[0]) for _ in range(len(self._matrix))
+        ]
+
         for row_ind in range(len(self._matrix)):
             for col_ind in range(len(other._matrix[0])):
                 for val_ind in range(len(other._matrix)):
-                    new_matrix[row_ind][col_ind] += (self._matrix[row_ind][val_ind] * 
-                                                     other._matrix[val_ind][col_ind])
+                    new_matrix[row_ind][col_ind] += (
+                        self._matrix[row_ind][val_ind]
+                        * other._matrix[val_ind][col_ind]
+                    )
 
         return Matrix(new_matrix)
 
@@ -98,9 +101,10 @@ class Matrix:
         Checks if two matrices have the same dimensions.
         """
 
-        return (len(self._matrix) == len(other._matrix) and
-                len(self._matrix[0]) == len(other._matrix[0]))
-    
+        return len(self._matrix) == len(other._matrix) and len(
+            self._matrix[0]
+        ) == len(other._matrix[0])
+
     def _is_multiplicable(self, other: "Matrix") -> bool:
         """
         Checks if two matrices can be multiplied (i.e., the number of columns
@@ -116,11 +120,10 @@ class Matrix:
         """
 
         if not list_of_lists or not list_of_lists[0]:
-                return False
+            return False
 
-        return all(len(row) == len(list_of_lists[0])
-                   for row in list_of_lists)
-    
+        return all(len(row) == len(list_of_lists[0]) for row in list_of_lists)
+
     def __str__(self) -> str:
         """
         Returns a string representation of the matrix, with rows separated by newlines
@@ -132,7 +135,7 @@ class Matrix:
 
 class Vector(Matrix):
     """
-    A class to represent a vector, inheriting from the Matrix class. 
+    A class to represent a vector, inheriting from the Matrix class.
     It provides additional functionality specific to vectors, such as calculating
     the vector's magnitude, dot product, and angle between vectors.
 
@@ -167,7 +170,7 @@ class Vector(Matrix):
         """
 
         # __len__ can't be used because it must return int
-        return sqrt( sum( val**2 for row in self._matrix for val in row ) )
+        return sqrt(sum(val**2 for row in self._matrix for val in row))
 
     @staticmethod
     def dot_product(a: "Vector", b: "Vector") -> float:
@@ -178,9 +181,11 @@ class Vector(Matrix):
         if not a._has_same_dimension(b):
             raise ValueError("Vectors have incompatible dimensions.")
 
-        return sum(a._matrix[row_ind][col_ind] * b._matrix[row_ind][col_ind]
-                   for row_ind in range(len(a._matrix))
-                   for col_ind in range(len(a._matrix[0])))
+        return sum(
+            a._matrix[row_ind][col_ind] * b._matrix[row_ind][col_ind]
+            for row_ind in range(len(a._matrix))
+            for col_ind in range(len(a._matrix[0]))
+        )
 
     @staticmethod
     def angle(a: "Vector", b: "Vector") -> float:
@@ -188,7 +193,7 @@ class Vector(Matrix):
         Calculates the angle (in radians) between two vectors.
         """
 
-        return acos( Vector.dot_product(a, b) / (a.length() * b.length()) )
+        return acos(Vector.dot_product(a, b) / (a.length() * b.length()))
 
     @staticmethod
     def is_vector(list_of_lists: List[List[float]]) -> bool:
@@ -196,5 +201,6 @@ class Vector(Matrix):
         Checks if the input is a valid vector (1xN or Nx1 matrix).
         """
 
-        return (len(list_of_lists) == 1 or
-                all(len(row) == 1 for row in list_of_lists))
+        return len(list_of_lists) == 1 or all(
+            len(row) == 1 for row in list_of_lists
+        )
