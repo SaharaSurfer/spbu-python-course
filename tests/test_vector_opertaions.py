@@ -3,6 +3,7 @@ from math import isclose, sqrt
 
 from project.vector_operations import Vector
 
+
 class TestVectorOperations:
     def test_vector_init(self) -> None:
         # Valid vector (1xN)
