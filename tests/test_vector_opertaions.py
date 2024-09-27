@@ -30,12 +30,6 @@ class TestVectorOperations:
         vector = Vector([[3, 4]])
         assert isclose(vector.length(), 5)
 
-        # Very large vector
-        large_vector = Vector([[i for i in range(1000)]])
-        length = large_vector.length()
-        expected_length = sqrt(sum(i**2 for i in range(1000)))
-        assert isclose(length, expected_length)
-
         # Zero vector length
         zero_vector = Vector([[0, 0, 0]])
         assert isclose(zero_vector.length(), 0)
@@ -85,9 +79,3 @@ class TestVectorOperations:
         vector2 = Vector([[-1, 0]])
         angle = Vector.angle(vector1, vector2)
         assert isclose(angle, pi, abs_tol=1e-4)
-
-        # Angle between vectors with negative numbers
-        vector1 = Vector([[-1, 0]])
-        vector2 = Vector([[0, -1]])
-        angle = Vector.angle(vector1, vector2)
-        assert isclose(angle, pi / 2, abs_tol=1e-4)

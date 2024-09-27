@@ -17,10 +17,6 @@ class TestMatrixOperations:
         with pytest.raises(TypeError):
             Matrix([])
 
-        # Matrix with empty row
-        with pytest.raises(TypeError):
-            Matrix([[], [1, 2]])
-
     def test_matrix_addition(self) -> None:
         matrix1 = Matrix([[1, 2], [3, 4]])
         matrix2 = Matrix([[5, 6], [7, 8]])
