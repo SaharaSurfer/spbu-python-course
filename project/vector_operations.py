@@ -1,5 +1,6 @@
 from typing import List
-from math import sqrt, acos
+from math import acos, hypot, sumprod
+from itertools import chain
 
 from project.matrix_operations import Matrix
 
@@ -40,8 +41,7 @@ class Vector(Matrix):
         Returns the magnitude (length) of the vector.
         """
 
-        # __len__ can't be used because it must return int
-        return sqrt(sum(val**2 for row in self._matrix for val in row))
+        return hypot(*chain.from_iterable(self._matrix))
 
     @staticmethod
     def dot_product(a: "Vector", b: "Vector") -> float:
@@ -52,10 +52,8 @@ class Vector(Matrix):
         if not a._has_same_dimension(b):
             raise ValueError("Vectors have incompatible dimensions.")
 
-        return sum(
-            a._matrix[row_ind][col_ind] * b._matrix[row_ind][col_ind]
-            for row_ind in range(len(a._matrix))
-            for col_ind in range(len(a._matrix[0]))
+        return sumprod(
+            chain.from_iterable(a._matrix), chain.from_iterable(b._matrix)
         )
 
     @staticmethod
