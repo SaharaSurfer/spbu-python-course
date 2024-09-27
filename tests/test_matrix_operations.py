@@ -33,6 +33,18 @@ class TestMatrixOperations:
         with pytest.raises(ValueError):
             matrix1 + matrix2
 
+        # Addition with negative numbers
+        matrix1 = Matrix([[1, -2], [-3, 4]])
+        matrix2 = Matrix([[-5, 6], [7, -8]])
+        result = matrix1 + matrix2
+        assert result._matrix == [[-4, 4], [4, -4]]
+
+        # Addition with zero matrices
+        matrix1 = Matrix([[0, 0], [0, 0]])
+        matrix2 = Matrix([[0, 0], [0, 0]])
+        result = matrix1 + matrix2
+        assert result._matrix == [[0, 0], [0, 0]]
+
     def test_matrix_inplace_addition(self) -> None:
         matrix1 = Matrix([[1, 2], [3, 4]])
         matrix2 = Matrix([[5, 6], [7, 8]])
@@ -45,12 +57,11 @@ class TestMatrixOperations:
         result = matrix1 * matrix2
         assert result._matrix == [[4, 4], [10, 8]]
 
-        # Test with large matrices
-        matrix1 = Matrix([[i for i in range(100)] for _ in range(100)])
-        matrix2 = Matrix([[i for i in range(100)] for _ in range(100)])
+        # Multiplication with singleton matrix
+        matrix1 = Matrix([[3]])
+        matrix2 = Matrix([[5]])
         result = matrix1 * matrix2
-        assert len(result._matrix) == 100
-        assert len(result._matrix[0]) == 100
+        assert result._matrix == [[15]]
 
         # Matrices with incompatible dimensions for multiplication
         matrix1 = Matrix([[1, 2]])
@@ -63,13 +74,12 @@ class TestMatrixOperations:
         transposed = matrix.transpose()
         assert transposed._matrix == [[1, 3, 5], [2, 4, 6]]
 
-    def test_singleton_matrix(self) -> None:
-        # 1x1 matrix (singleton)
-        matrix1 = Matrix([[3]])
-        matrix2 = Matrix([[4]])
+        # Transposing a square matrix
+        matrix = Matrix([[1, 2], [3, 4]])
+        transposed = matrix.transpose()
+        assert transposed._matrix == [[1, 3], [2, 4]]
 
-        result_add = matrix1 + matrix2
-        result_mul = matrix1 * matrix2
-
-        assert result_add._matrix == [[7]]
-        assert result_mul._matrix == [[12]]
+        # Transposing a singleton matrix
+        matrix = Matrix([[7]])
+        transposed = matrix.transpose()
+        assert transposed._matrix == [[7]]
