@@ -1,7 +1,7 @@
 import pytest
-from math import isclose, sqrt, pi
+from math import isclose, pi
 
-from project.vector_operations import Vector
+from project.matrix_vector_operations.vector_operations import Vector
 
 
 class TestVectorOperations:

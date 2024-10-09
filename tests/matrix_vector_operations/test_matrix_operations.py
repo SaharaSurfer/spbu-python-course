@@ -1,6 +1,6 @@
 import pytest
 
-from project.matrix_operations import Matrix
+from project.matrix_vector_operations.matrix_operations import Matrix
 
 
 class TestMatrixOperations:
