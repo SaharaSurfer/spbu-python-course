@@ -94,6 +94,9 @@ class TestSmartArgs:
         assert result == {"a": 0}
         assert no_mutable == {"a": 10}  # Ensure original is not mutated
 
+        with pytest.raises(TypeError):
+            check_isolated_positional(no_mutable)
+
     def test_evaluated_with_positional_argument(self) -> None:
         """Test that Evaluated works correctly with positional arguments passed by key."""
 
@@ -107,3 +110,9 @@ class TestSmartArgs:
         result2 = check_evaluated_positional()
 
         assert result1 != result2
+
+        with pytest.raises(TypeError):
+            check_evaluated_positional(5)
+
+        result = check_evaluated_positional(b=10)
+        assert result == 10

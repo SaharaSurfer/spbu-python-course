@@ -100,11 +100,23 @@ def smart_args(func: Callable[..., Any]) -> Callable[..., Any]:
             param = sig.parameters[name]
 
             # Process it depending on default value
-            if isinstance(param.default, Isolated) and name in kwargs:
-                bound_args.arguments[name] = copy.deepcopy(value)
+            if isinstance(param.default, Isolated):
+                if name in kwargs and value != param.default:
+                    bound_args.arguments[name] = copy.deepcopy(value)
+                else:
+                    raise TypeError(
+                        "Invalid scenario of using the 'Isolated' class"
+                    )
 
-            elif isinstance(param.default, Evaluated) and name not in kwargs:
-                bound_args.arguments[name] = param.default.evaluate()
+            elif isinstance(param.default, Evaluated):
+                if name not in kwargs and value == param.default:
+                    bound_args.arguments[name] = param.default.evaluate()
+                elif name in kwargs and value != param.default:
+                    pass  # We don''t need to modify value here
+                else:
+                    raise TypeError(
+                        "Invalid scenario of using the 'Evaluated' class"
+                    )
 
         # Call the original function with updated arguments
         return func(*bound_args.args, **bound_args.kwargs)
