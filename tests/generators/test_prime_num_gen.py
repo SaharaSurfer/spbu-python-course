@@ -39,6 +39,11 @@ class TestPrimeNumGen:
         decorated_gen = get_nth_element(prime_num_gen)
         assert decorated_gen(index) == expected_prime
 
+        decorated_gen(index + 1)  # It shouldn't raise IndexError
+
+        with pytest.raises(IndexError):
+            decorated_gen(index)
+
     @pytest.mark.parametrize(
         "invalid_index", [-1, 0]  # Invalid negative index and zero
     )

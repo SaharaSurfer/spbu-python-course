@@ -31,15 +31,26 @@ def get_nth_element(
     2
     """
 
+    gen = func()
+    index = 0
+
     def helper(n: int) -> Any:
-        if n <= 0:
-            raise IndexError(f"The index must be greater than 0")
+        nonlocal index
 
-        gen = func()
-        for i, element in enumerate(gen, start=1):
-            if i == n:
-                return element
+        if n < index + 1:
+            raise IndexError(
+                f"The element with this index does not exist or it has been passed through"
+            )
 
-        raise IndexError(f"Generator does not have {n} elements.")
+        result = None
+        while index != n:
+            result = next(gen, None)
+
+            if result is None:
+                raise IndexError(f"Generator does not have {n} elements.")
+
+            index += 1
+
+        return result
 
     return helper
