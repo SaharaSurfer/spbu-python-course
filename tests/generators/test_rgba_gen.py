@@ -8,7 +8,7 @@ class TestRGBAGen:
         "index, expected",
         [
             (1, (0, 0, 0, 2)),  # First element
-            (5, (0, 0, 0, 10)),  # Arbitrary element
+            (51, (0, 0, 1, 0)),  # Arbitrary element
         ],
     )
     def test_get_nth_rgba_vec(
@@ -18,7 +18,9 @@ class TestRGBAGen:
 
         assert result == expected
 
-    @pytest.mark.parametrize("invalid_index", [-1])  # Negative index
+    @pytest.mark.parametrize(
+        "invalid_index", [-1, 256 * 256 * 256 * 51 + 100]
+    )  # Negative index
     def test_invalid_index(self, invalid_index: int) -> None:
         """Test that invalid indices raise an IndexError in the decorated function."""
         with pytest.raises(IndexError):

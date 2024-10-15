@@ -69,10 +69,17 @@ def get_nth_rgba_vec(n: int) -> tuple[int, int, int, int]:
     if n < 0:
         raise IndexError("`n` must be non-negative")
 
+    if n > 256**3 * 51:
+        raise IndexError("Generator does not have {n} elements.")
+
     gen = get_rgba_gen()
 
     for i, val in enumerate(gen):
         if i == n:
             return val
 
-    raise IndexError(f"Generator does not have {n} elements.")
+    # This line should not be reached because of the bounds check above,
+    # but is added to satisfy mypy's exhaustive checks.
+    raise IndexError(
+        f"Generator exhausted unexpectedly before reaching element {n}."
+    )
