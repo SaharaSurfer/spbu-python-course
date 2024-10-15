@@ -1,4 +1,5 @@
 black
+llist  # for task 2
 mypy
 pre-commit
 pytest
