@@ -69,8 +69,9 @@ class TestCurryExplicit:
             max, 3
         )  # We want to curry the max function with arity 3
 
+        with pytest.raises(TypeError):
+            curried = curry_explicit(max, 3)
+            curried(5)(1)(10)(15)
+
         result = curried_max(5)(1)(10)  # Providing 3 arguments one at a time
         assert result == 10  # The maximum of (5, 1, 10) is 10
-
-        with pytest.raises(TypeError):
-            result = curried_max(5)(1)(10)(15)
