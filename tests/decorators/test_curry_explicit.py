@@ -73,4 +73,4 @@ class TestCurryExplicit:
         assert result == 10  # The maximum of (5, 1, 10) is 10
 
         with pytest.raises(TypeError):
-            result(5)
+            result = curried_max(5)(1)(10)(15)
