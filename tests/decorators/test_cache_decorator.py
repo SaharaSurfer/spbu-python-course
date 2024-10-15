@@ -4,13 +4,6 @@ from typing import Any
 
 from project.decorators.cache_decorator import lru_cache, make_key
 
-# Helper function to simulate unique values
-counter = count()
-
-
-def get_unique_value() -> int:
-    return next(counter)
-
 
 class TestCacheAndMakeKey:
     @pytest.mark.parametrize(
